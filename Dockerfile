@@ -4,7 +4,7 @@ FROM alpine:${ALPINE_VERSION}
 LABEL maintainer="Tom Helander <thomas.helander@gmail.com>"
 
 RUN apk add --no-cache apcupsd bash busctl
-ADD apcupsd.conf onshutdown /etc/apcupsd/
+ADD apcupsd.conf doshutdown /etc/apcupsd/
 ADD entrypoint.sh /usr/local/bin
 
 EXPOSE 3551
