@@ -15,7 +15,7 @@ SETTINGS=(
 for s in "${SETTINGS[@]}"; do
     name="${ENVVAR_PREFIX}${s}"
     value="${!name}"
-    if [[ -n "${value}" ]]; then
+    if [[ "x${value}" != "x" ]]; then
         echo "Setting $s=$value"
         sed -i -r "s/^(#)?$s .*\$/$s $value/g" /etc/apcupsd/apcupsd.conf
     fi
