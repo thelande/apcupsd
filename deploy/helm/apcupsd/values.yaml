@@ -63,23 +63,22 @@ resources: {}
   #   memory: 128Mi
 
 # Additional volumes on the output Deployment definition.
-volumes: []
+volumes:
   - name: dbus-socket
     hostPath:
       path: /var/run/dbus/system_bus_socket
       type: Socket
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
+  # - name: usb-device
+  #   hostPath:
+  #     path: /dev/usb/hiddev0
+  #     type: CharDevice
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
+volumeMounts:
   - name: dbus-socket
     mountPath: /var/run/dbus/system_bus_socket
-# - name: foo
-#   mountPath: "/etc/foo"
-#   readOnly: true
+  # - name: usb-device
+  #   mountPath: /dev/usb/hiddev0
 
 nodeSelector: {}
 

@@ -31,11 +31,28 @@ spec:
           env:
             - name: APCUPSD_POWEROFF_METHOD
               value: dbus
+            - name: APCUPSD_UPSTYPE
+              value: usb
+            - name: APCUPSD_DEVICE
+              value: ""
           volumeMounts:
             - name: dbus-socket
               mountPath: /var/run/dbus/system_bus_socket
+            - name: usb-device
+              mountPath: /dev/usb/hiddev0
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
       volumes:
         - name: dbus-socket
           hostPath:
             path: /var/run/dbus/system_bus_socket
             type: Socket
+        - name: usb-device
+          hostPath:
+            path: /dev/usb/hiddev0
+            type: CharDevice
