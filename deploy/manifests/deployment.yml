@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apcupsd
+  namespace: apcupsd
+  labels:
+    app.kubernetes.io/name: apcupsd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apcupsd
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apcupsd
+    spec:
+      nodeSelector:
+        apcupsd: "true"
+      containers:
+        - name: apcupsd
+          image: thelande/apcupsd:latest
+          imagePullPolicy: Always
+          securityContext:
+            privileged: true
+          ports:
+            - name: apcupsd
+              containerPort: 3551
+              protocol: TCP
+          env:
+            - name: APCUPSD_POWEROFF_METHOD
+              value: dbus
+          volumeMounts:
+            - name: dbus-socket
+              mountPath: /var/run/dbus/system_bus_socket
+      volumes:
+        - name: dbus-socket
+          hostPath:
+            path: /var/run/dbus/system_bus_socket
+            type: Socket
