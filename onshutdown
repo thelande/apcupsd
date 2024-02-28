@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Custom shutdown handler.
+#
+set -e
+
+function poweroff_dbus {
+    if [[ ! -S /var/run/dbus/system_bus_socket ]]; then
+        echo "error: dbus system socket not found: /var/run/dbus/system_bus_socket" >&2
+    else
+        busctl call org.freedesktop.login1 /org/freedesktop/login1 \
+            org.freedesktop.login1.Manager PowerOff b false
+    fi
+}
+
+case "$APCUPSD_POWEROFF_METHOD" in
+    dbus)
+        poweroff_dbus
+        ;;
+    *)
+        echo "error: unknown poweroff method: $APCUPSD_POWEROFF_METHOD" >&2
+        ;;
+esac
+
+# Tell apccontrol to not proceed after we exit.
+exit 99
