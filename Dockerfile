@@ -3,7 +3,16 @@ ARG ALPINE_VERSION=3.19
 FROM alpine:${ALPINE_VERSION}
 LABEL maintainer="Tom Helander <thomas.helander@gmail.com>"
 
-RUN apk add --no-cache apcupsd bash busctl
+RUN set-eux; \
+    apk update; \
+    apk upgrade -v; \
+    apk add --no-cache \
+        apcupsd \
+        bash \
+        busctl \
+    ; \
+    apk cache purge
+
 ADD apcupsd.conf doshutdown /etc/apcupsd/
 ADD entrypoint.sh /usr/local/bin
 
