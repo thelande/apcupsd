@@ -28,6 +28,8 @@ spec:
       serviceAccountName: {{ include "apcupsd.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      strategy:
+        type: {{ .values.strategyType }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
