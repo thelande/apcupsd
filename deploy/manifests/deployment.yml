@@ -18,6 +18,8 @@ spec:
     spec:
       nodeSelector:
         apcupsd: "true"
+      strategy:
+        type: Recreate
       containers:
         - name: apcupsd
           image: thelande/apcupsd:latest
